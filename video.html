@@ -1,0 +1,92 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>生成table</title>
+    <style>
+        table{
+            width: 500px;
+            border-collapse: collapse;
+        }
+        td{
+            border: solid 1px #ccc;
+            width: 80px;
+            height: 30px;
+            text-align: center;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+<div id="table"></div>
+<script charset="utf-8" src="jquery.js" ></script>
+<script charset="utf-8" src="table.js" ></script>
+<script charset="utf-8" src="underscore.js" ></script>
+<script type="text/template" id="tpl">
+    <table padding="0" cellspacing="0" border="0">
+    <thead></thead>
+    <tbody>
+      <% _.each(data.rows, function(n){%>
+        <tr>
+        <% _.each(n, function(i){%>
+            <td rowspan="<%= i.rowSpan || 1 %>" colspan="<%= i.colSpan || 1 %>" data-id="<%= i.uniqId %>"><%= i.html %></td>
+        <% }); %>
+        </tr>
+      <% }); %>
+      </tbody>
+    </table>
+</script>
+<script charset="utf-8">
+	var cellLists = [
+        cell(["1", "2", "3", "4", "5"].concat([{html: "加赛"}]), [{
+            html: '局',
+            rowSpan: 3
+        }]),
+        cell([1,2,3,4,5].concat([{html: 10, colSpan: 4}]), [{
+            html: "flyku",
+            colSpan: 5
+        }].concat([{html: "环数", colSpan: 4}]).concat([{html: "第一箭"}])),
+
+        cell([1,2,3,4,5], [{
+            html: '第二箭'
+        }]),
+        cell([1,2,3,4,5], [{
+            html: '第三箭'
+        }]),
+        cell([1,2,3,4,5], [{
+            html: '总计'
+        }]),
+        cell([1,2,3,4,5].concat([{html: "加赛"}]), [{
+            html: '得分',
+            rowSpan: 2
+        }]),
+
+        cell([1,2,3,4,5].concat([{html: 222}]), [{
+            html: '比分',
+            rowSpan: 3
+        }]),
+
+        cell([1,2,3,4,5].concat([{html: 1}]), [{
+            html: "flyku",
+            colSpan: 5
+        }].concat([{html: "得分", rowSpan: 2}])),
+        cell([1,2,3,4,5].concat([{html: 10, colSpan: 4}]), [{
+            html: '环数',
+            colSpan: 4
+        }].concat([{html: "第一箭"}])),
+        cell([1,2,3,4,5], [{
+            html: '第二箭'
+        }]),
+        cell([1,2,3,4,5], [{
+            html: '第三箭'
+        }]),
+        cell([1,2,3,4,5], [{
+            html: '总计'
+        }])
+    ];
+    var data =  new table(cellLists);
+    var str =_.template($('#tpl').html(), data);
+    $("#table").html(str);
+</script>
+</body>
+</html>
